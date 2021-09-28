@@ -8,6 +8,13 @@ var player = {
     height: 20,
     width: 20
 };
+// The atributes of the canon.
+var canon = {
+    x: 310,
+    y: 50,
+    width: 80,
+    height: 20
+}
 // The status of the arrow keys
 var keys = {
     right: false,
@@ -18,7 +25,7 @@ var keys = {
 var gravity = 0.4;
 var friction = 0.7;
 // The number of platforms
-var num = 5;
+var num = 4;
 // The platforms
 var platforms = [];
 // The height and width of the platforms
@@ -34,12 +41,17 @@ function renderplayer() {
     ctx.fillStyle = "#F08080";
     ctx.fillRect((player.x) - 20, (player.y) - 20, player.width, player.height);
 }
+
+function renderCanon() {
+    ctx.fillStyle = "#F08080";
+    ctx.fillRect(canon.x, canon.y, canon.width, canon.height)
+}
 // Function to create platforms
 function createplat() {
     for (i = 0; i < num; i++) {
         platforms.push(
             {
-                x: 100 * i,
+                x: 125 * i,
                 y: 200 + (30 * i),
                 width: platWidth,
                 height: platHeight
@@ -128,12 +140,13 @@ function loop() {
         }
     }
 
-    if (player.x > ctx.canvas.width - 50) {
-        platforms.x -= 10;
+    if (player.x > ctx.canvas.width) {
+        player.x = ctx.canvas.width;
     }
     // Rendering the canvas, the player and the platforms
     rendercanvas();
     renderplayer();
+    renderCanon();
     renderplat();
 }
 canvas = document.getElementById("canvas");
