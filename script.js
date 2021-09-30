@@ -27,7 +27,7 @@ var fullScreen = false;
 var gravity = screen.width / 3000;
 var friction = screen.width / screen.width / 1500;
 // The number of platforms
-var num = 10;
+var num = 8;
 // The platforms
 var platforms = [];
 // The clouds
@@ -56,16 +56,38 @@ function renderCanon() {
 // Function to create platforms
 function createplat() {
     for (i = 0; i < num; i++) {
-        platforms.push(
-            {
-                x: screen.width / 10 * i,
-                y: screen.width / 6 + (screen.width / 45 * i),
-                width: platWidth,
-                height: platHeight
-            }
-        );
+        if (i < num - 1) {
+            platforms.push(
+                {
+                    x: screen.width / num * i,
+                    y: screen.width / 6 + (screen.width / 70 * i),
+                    width: platWidth,
+                    height: platHeight
+                }
+            );
+        } else {
+            platforms.push(
+                {
+                    x: screen.width / num * i,
+                    y: screen.width / 6 + (screen.width / 70 * i) - (screen.width / 60),
+                    width: platWidth,
+                    height: platHeight
+                }
+            )
+            console.log("hello")
+        }
+
         //platforms[i].y = Math.floor(Math.random() * 150) + 200
     }
+    platforms.push(
+        {
+        x: screen.width,
+        y: screen.width / 6,
+        width: platWidth,
+        height: platHeight
+    }
+    )
+    
 }
 
 function createCloud() {
@@ -79,6 +101,14 @@ function createCloud() {
             }
         );
     }
+    clouds.push(
+        {
+        x: screen.width,
+        y: screen.width / 6,
+        width: platWidth,
+        height: platHeight
+    }
+    )
 }
 
 function renderCloud() {
@@ -236,7 +266,12 @@ function loop() {
         clouds[i].x -= speed;
         if (platforms[i].x < -platWidth) {
             platforms[i].x = ctx.canvas.width;
-            platforms[i].y = Math.floor(Math.random() * screen.width / 8) + screen.width / 6
+            if (Math.floor(Math.random()) == 0) {
+                platforms[i].y += Math.floor(Math.random() * screen.width / 120)
+            } else {
+                platforms[i].y += Math.floor(Math.random() * screen.width / 120)
+            }
+
         }
         if (clouds[i].x < -platWidth) {
             clouds[i].x = ctx.canvas.width;
