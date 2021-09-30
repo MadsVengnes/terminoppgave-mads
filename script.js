@@ -74,7 +74,6 @@ function createplat() {
                     height: platHeight
                 }
             )
-            console.log("hello")
         }
 
         //platforms[i].y = Math.floor(Math.random() * 150) + 200
@@ -269,7 +268,7 @@ function loop() {
             if (Math.floor(Math.random()) == 0) {
                 platforms[i].y += Math.floor(Math.random() * screen.width / 120)
             } else {
-                platforms[i].y += Math.floor(Math.random() * screen.width / 120)
+                platforms[i].y -= Math.floor(Math.random() * screen.width / 120)
             }
 
         }
@@ -303,4 +302,10 @@ createCloud();
 // Adding the event listeners
 document.addEventListener("keydown", keydown);
 document.addEventListener("keyup", keyup);
+// Stops the arrow keys from scrolling
+window.addEventListener("keydown", function(e) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
 setInterval(loop, 20);
