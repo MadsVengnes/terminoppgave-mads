@@ -37,6 +37,8 @@ var speed = screen.width / 1920;
 // The height and width of the platforms
 var platWidth = screen.width / 10;
 var platHeight = screen.width / 70;
+
+var color = 0;
 // Function to render the canvas
 function rendercanvas() {
     ctx.fillStyle = "#eeeeff";
@@ -44,7 +46,21 @@ function rendercanvas() {
 }
 // Function to render the player
 function renderplayer() {
-    ctx.fillStyle = "#F08080";
+    if (color <= 50) {
+        ctx.fillStyle = "#5050" + color;
+        color += 1;
+    } else if (color > 50 && color < 100) {
+        ctx.fillStyle = "#50" + (color - 50) + "50";
+        color += 1;
+    } else if (color >= 100 && color < 150) {
+        ctx.fillStyle = "#" + (color - 100) + "5050";
+        color += 1;
+    } else {
+        ctx.fillStyle = "#" + (color - 100) + "5050";
+        color = 0;
+    }
+    console.log(color)
+    
     ctx.fillRect((player.x) - player.width, (player.y) - player.height, player.width, player.height);
 }
 
