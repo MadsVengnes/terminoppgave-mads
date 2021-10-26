@@ -38,7 +38,7 @@ var speed = screen.width / 1920;
 var platWidth = screen.width / 10;
 var platHeight = screen.width / 70;
 
-var color = 0;
+var color = "ff3030";
 // Function to render the canvas
 function rendercanvas() {
     ctx.fillStyle = "#eeeeff";
@@ -46,21 +46,9 @@ function rendercanvas() {
 }
 // Function to render the player
 function renderplayer() {
-    if (color <= 50) {
-        ctx.fillStyle = "#5050" + color;
-        color += 1;
-    } else if (color > 50 && color < 100) {
-        ctx.fillStyle = "#50" + (color - 50) + "50";
-        color += 1;
-    } else if (color >= 100 && color < 150) {
-        ctx.fillStyle = "#" + (color - 100) + "5050";
-        color += 1;
-    } else {
-        ctx.fillStyle = "#" + (color - 100) + "5050";
-        color = 0;
-    }
-    console.log(color)
-    
+    ctx.fillStyle = "#" + color;
+    //console.log(color)
+
     ctx.fillRect((player.x) - player.width, (player.y) - player.height, player.width, player.height);
 }
 
@@ -96,13 +84,13 @@ function createplat() {
     }
     platforms.push(
         {
-        x: screen.width,
-        y: screen.width / 6,
-        width: platWidth,
-        height: platHeight
-    }
+            x: screen.width,
+            y: screen.width / 6,
+            width: platWidth,
+            height: platHeight
+        }
     )
-    
+
 }
 
 function createCloud() {
@@ -118,11 +106,11 @@ function createCloud() {
     }
     clouds.push(
         {
-        x: screen.width,
-        y: screen.width / 6,
-        width: platWidth,
-        height: platHeight
-    }
+            x: screen.width,
+            y: screen.width / 6,
+            width: platWidth,
+            height: platHeight
+        }
     )
 }
 
@@ -302,26 +290,36 @@ function loop() {
     }
 
 
+
     // Rendering the canvas, the player and the platforms
     rendercanvas();
     renderplayer();
     renderCanon();
     renderplat();
     renderCloud();
+    if (player.y > ctx.canvas.height) {
+        clearInterval(loopie);
+        console.log("halla")
+        ctx.font = "30px Arial";
+        ctx.fillText("Hello World", 10, 50);
+    }
 }
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
-ctx.canvas.height = screen.height;
-ctx.canvas.width = window.innerWidth;
+ctx.canvas.height = screen.height //- (screen.height / 5);
+ctx.canvas.width = window.innerWidth //- (window.innerWidth / 5);
 createplat();
 createCloud();
 // Adding the event listeners
 document.addEventListener("keydown", keydown);
 document.addEventListener("keyup", keyup);
 // Stops the arrow keys from scrolling
-window.addEventListener("keydown", function(e) {
-    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+window.addEventListener("keydown", function (e) {
+    if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
         e.preventDefault();
     }
 }, false);
-setInterval(loop, 20);
+
+
+var loopie = setInterval(loop, 20);
+
