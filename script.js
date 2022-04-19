@@ -297,6 +297,8 @@ function loop() {
     renderCanon();
     renderplat();
     renderCloud();
+    
+    // Eliminates the player and stops the game
     if (player.y > ctx.canvas.height) {
         clearInterval(loopie);
         console.log("halla")
