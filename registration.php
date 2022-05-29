@@ -1,4 +1,4 @@
-
+﻿
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
@@ -21,13 +21,16 @@
             //Gjøre om POST-data til variabler
             $brukernavn = $_POST['brukernavn'];
             $passord = $_POST['passord'];
+
+            $param_brukernavn = $brukernavn;
+            $param_passord = md5($passord);
             
             //Koble til databasen
-            $dbc = mysqli_connect('localhost', 'root', '', 'mydb')
+            $dbc = mysqli_connect('localhost', 'root', 'Bennevis2004', 'mydb')
               or die('Error connecting to MySQL server.');
             
             //Gjøre klar SQL-strengen
-            $query = "INSERT INTO users VALUES ('$brukernavn','$passord')";
+            $query = "INSERT INTO users VALUES ('$param_brukernavn','$param_passord')";
             
             //Utføre spørringen
             $result = mysqli_query($dbc, $query)
