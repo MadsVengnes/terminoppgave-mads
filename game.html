@@ -9,10 +9,11 @@
 </head>
 <canvas id="canvas"></canvas>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 
 <body>
     <button style="position: absolute; top: 20px; right:20px;" onclick="activateFullscreen(document.documentElement)"><img id="img" src="fullscreen.svg" alt="fullscreen"></button>
-    
+    <button style="position: absolute; top: 20px; left:20px;"><p id="score"></p></button>
+    <h1 style="position:absolute;" id="gameOver">Game Over</h1>
 </body>
 </html>
