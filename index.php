@@ -23,7 +23,7 @@
             $brukernavn = $_POST['brukernavn'];
             $passord = $_POST['passord'];
 
-            $param_brukernavn = $brukernavn;
+            $param_brukernavn = filter_var($brukernavn, FILTER_SANITIZE_EMAIL);
             $param_passord = md5($passord);
             
             //Koble til databasen

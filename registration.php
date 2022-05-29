@@ -22,7 +22,7 @@
             $brukernavn = $_POST['brukernavn'];
             $passord = $_POST['passord'];
 
-            $param_brukernavn = $brukernavn;
+            $param_brukernavn = filter_var($brukernavn, FILTER_SANITIZE_EMAIL);
             $param_passord = md5($passord);
             
             //Koble til databasen
@@ -31,10 +31,18 @@
             
             //Gjøre klar SQL-strengen
             $query = "INSERT INTO users VALUES ('$param_brukernavn','$param_passord')";
-            
+            $query2 = "SELECT * FROM users WHERE brukernavn = ('$param_brukernavn')";
+            $result1 = mysqli_query($dbc, $query2);
             //Utføre spørringen
-            $result = mysqli_query($dbc, $query)
-              or die('Error querying database.');
+            if($result1->num_rows == 0 && $brukernavn == $param_brukernavn) { //Sjekker om brukernavn eksisterer
+                
+                    $result = mysqli_query($dbc, $query)
+                        or die('Error querying database.');
+                
+                
+            }else{
+            }
+            
             
             //Koble fra databasen
             mysqli_close($dbc);
