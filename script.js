@@ -1,6 +1,6 @@
 // The attributes of the player.
 var player = {
-    x: screen.width / 6,
+    x: screen.width / 6 - 60,
     y: screen.width / 6,
     x_v: 0,
     y_v: 0,
@@ -22,6 +22,10 @@ var keys = {
     up: false,
 };
 
+// score
+var score = 0;
+var actualScore = 0;
+var scoreEl = document.getElementById("score");
 var fullScreen = false;
 // The friction and gravity to show realistic movements    
 var gravity = screen.width / 3000;
@@ -39,6 +43,13 @@ var platWidth = screen.width / 10;
 var platHeight = screen.width / 70;
 
 var color = "ff3030";
+
+var gameOverEl = document.getElementById("gameOver");
+gameOverEl.style.color = "red";
+gameOverEl.style.display = "none";
+gameOverEl.style.top = "50%";
+gameOverEl.style.right = "50%";
+
 // Function to render the canvas
 function rendercanvas() {
     ctx.fillStyle = "#eeeeff";
@@ -63,7 +74,7 @@ function createplat() {
         if (i < num - 1) {
             platforms.push(
                 {
-                    x: screen.width / num * i,
+                    x: screen.width / num * (i - 0.5),
                     y: screen.width / 6 + (screen.width / 70 * i),
                     width: platWidth,
                     height: platHeight
@@ -153,14 +164,7 @@ function keydown(e) {
         activateFullscreen(document.documentElement);
     }
     if (e.keyCode == 122) {
-        if (fullScreen == false) {
-            img.src = "noFullscreen.svg";
-            fullScreen = true;
-        } else if (fullScreen == true) {
-            img.src = "fullscreen.svg";
-            fullScreen = false;
-        }
-
+        activateFullscreen(document.documentElement);
     }
 }
 // This function is called when the pressed key is released
@@ -207,7 +211,7 @@ function activateFullscreen(element) {
         }
         fullScreen = false;
     }
-
+    location.reload();
 
 
 
@@ -251,12 +255,12 @@ function loop() {
     }
 
     let k = -1;
-    for (j = 0; j < clouds.length; j++) {
+   /*  for (j = 0; j < clouds.length; j++) {
         if (clouds[j].x < player.x && player.x < clouds[j].x + clouds[j].width &&
             clouds[j].y < player.y && player.y < clouds[j].y + clouds[j].height) {
             k = j;
         }
-    }
+    } */
     // Makes sure that the player doesn't fall through the platform and that it stays on the platform
     if (k > -1) {
         player.jump = false;
@@ -269,6 +273,7 @@ function loop() {
         clouds[i].x -= speed;
         if (platforms[i].x < -platWidth) {
             platforms[i].x = ctx.canvas.width;
+
             if (Math.floor(Math.random()) == 0) {
                 platforms[i].y += Math.floor(Math.random() * screen.width / 120)
             } else {
@@ -289,26 +294,35 @@ function loop() {
         player.x = 0;
     }
 
-
+    speed += 0.005;
+    score ++;
+    console.log(score)
+    if (score % 50 == 0) {
+        actualScore++;
+        document.getElementById('score').innerHTML = '';
+        var textToAdd = document.createTextNode(actualScore)
+        scoreEl.appendChild(textToAdd)
+    }
+    console.log(actualScore)
 
     // Rendering the canvas, the player and the platforms
     rendercanvas();
     renderplayer();
-    renderCanon();
+    //renderCanon();
     renderplat();
     renderCloud();
-    
+
     // Eliminates the player and stops the game
     if (player.y > ctx.canvas.height) {
         clearInterval(loopie);
         console.log("halla")
-        ctx.font = "30px Arial";
-        ctx.fillText("Hello World", 10, 50);
+        gameOverEl.style.display = "block";
     }
 }
+
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
-ctx.canvas.height = screen.height //- (screen.height / 5);
+ctx.canvas.height = window.innerHeight //- (screen.height / 5);
 ctx.canvas.width = window.innerWidth //- (window.innerWidth / 5);
 createplat();
 createCloud();
